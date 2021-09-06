@@ -19,15 +19,19 @@ export default class News extends Component {
         category: PropTypes.string
        
       }
+      capitalize = (string)=> {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
 
-    constructor(){
-     super();
+    constructor(props){
+     super(props);
      this.state={
         articles: [],
         loading: false,
         page:1,
         totalResults:0
      }
+     document.title = `DW- ${this.capitalize(this.props.category)}`;
     }
     async componentDidMount(){ 
         let url = `
@@ -75,7 +79,7 @@ export default class News extends Component {
         return (
             
                 <div className="container my-3">
-                    <h1 className="text-center" style={this.props.mode === 'light' ? { color: 'black'} : { color: 'white' }}>DW-News</h1>
+                    <h2 className="text-center" style={this.props.mode === 'light' ? { color: 'black'} : { color: 'white' }}>DW-Top {this.capitalize(this.props.category)} Headlines</h2>
                     {this.state.loading && <Loader/>}
                     <div className="row  my-3">
                     {!this.state.loading &&this.state.articles.map((element)=>{
