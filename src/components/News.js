@@ -35,13 +35,17 @@ export default class News extends Component {
      document.title = `DW- ${this.capitalize(this.props.category)}`;
     }
     async componentDidMount(){ 
+        this.props.setprogress(30);
         let url = `
         https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=${this.state.page}&pageSize=${this.props.pagesize}`;
         this.setState({loading:true});
+        this.props.setprogress(50);
         let data = await fetch(url);
         let parsedData = await data.json()
-        
+        this.props.setprogress(70);
         this.setState({loading:false,articles: parsedData.articles, totalResults: parsedData.totalResults})
+        this.props.setprogress(100);
+
     }
 
     //  handlePrevClick = async ()=>{
@@ -96,8 +100,7 @@ export default class News extends Component {
                     dataLength={this.state.articles.length}
                     next={this.fetchMoreData}
                     hasMore={this.state.articles.length!==this.state.totalResults}
-                    loader={<Loader/>}
-        >
+                    loader={<Loader/>}>
                     <div className="row my-3 container">
                     {this.state.articles.map((element)=>{
                     return <div className="col-md-4" key={element.url}>
