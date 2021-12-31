@@ -36,7 +36,7 @@ export default class News extends Component {
     }
     async componentDidMount(){ 
         let url = `
-        https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=1&pageSize=${this.props.pagesize}`;
+        https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=${this.state.page}&pageSize=${this.props.pagesize}`;
         this.setState({loading:true});
         let data = await fetch(url);
         let parsedData = await data.json()
@@ -44,40 +44,40 @@ export default class News extends Component {
         this.setState({loading:false,articles: parsedData.articles, totalResults: parsedData.totalResults})
     }
 
-     handlePrevClick = async ()=>{
+    //  handlePrevClick = async ()=>{
      
-        let url = `
-        https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=${this.state.page - 1}&pageSize=${this.props.pagesize}`;
-        this.setState({loading:true});
-        let data = await fetch(url);
-        let parsedData = await data.json()
+    //     let url = `
+    //     https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=${this.state.page - 1}&pageSize=${this.props.pagesize}`;
+    //     this.setState({loading:true});
+    //     let data = await fetch(url);
+    //     let parsedData = await data.json()
         
-        this.setState({
-            page: this.state.page - 1,
-            articles: parsedData.articles,
-            loading:false
-        })
+    //     this.setState({
+    //         page: this.state.page - 1,
+    //         articles: parsedData.articles,
+    //         loading:false
+    //     })
 
-    }
+    // }
 
-     handleNextClick = async ()=>{
-        if (!(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pagesize))){
-            let url = `
-            https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=${this.state.page + 1}&pageSize=${this.props.pagesize}`;
-            this.setState({loading:true});
-            let data = await fetch(url);
-            let parsedData = await data.json()
-            this.setState({
-                page: this.state.page + 1,
-                articles: parsedData.articles,
-                loading:false
-            })
-    }
-    }
+    //  handleNextClick = async ()=>{
+    //     if (!(this.state.page + 1 > Math.ceil(this.state.totalResults/this.props.pagesize))){
+    //         let url = `
+    //         https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=${this.state.page + 1}&pageSize=${this.props.pagesize}`;
+    //         this.setState({loading:true});
+    //         let data = await fetch(url);
+    //         let parsedData = await data.json()
+    //         this.setState({
+    //             page: this.state.page + 1,
+    //             articles: parsedData.articles,
+    //             loading:false
+    //         })
+    // }
+    // }
     fetchMoreData =async()=>{
         this.setState({page:this.state.page+1});
         let url = `
-        https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=1&pageSize=${this.props.pagesize}`;
+        https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=8a05c1f3c82446e59c1dda1ee6c9ca7c&page=${this.state.page}&pageSize=${this.props.pagesize}`;
         this.setState({loading:true});
         let data = await fetch(url);
         let parsedData = await data.json()
@@ -98,7 +98,7 @@ export default class News extends Component {
                     hasMore={this.state.articles.length!==this.state.totalResults}
                     loader={<Loader/>}
         >
-                    <div className="row  my-3">
+                    <div className="row my-3 container">
                     {this.state.articles.map((element)=>{
                     return <div className="col-md-4" key={element.url}>
                         <Newsitems title={element.title?element.title:""} description={element.description?element.description:""} imageUrl={element.urlToImage} newsUrl={element.url} author={element.author} date={element.publishedAt}/>
