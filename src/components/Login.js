@@ -1,9 +1,9 @@
-import React, {useState} from 'react'
-import { useHistory } from 'react-router-dom'
-
+import React, { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 
 const Login = (props) => {
-    const [credentials, setCredentials] = useState({email: "", password: ""}) 
+    const [credentials, setCredentials] = useState({ email: "", password: "" })
+    const [getmassage, setmassage] = useState({massage:""});
     let history = useHistory();
 
     const handleSubmit = async (e) => {
@@ -13,43 +13,54 @@ const Login = (props) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email: credentials.email, password: credentials.password})
+            body: JSON.stringify({ email: credentials.email, password: credentials.password })
         });
         const json = await response.json()
-        console.log(json);
-        if (json.success){
+        if (json.authtoken) {
+            console.log(json)
             // Save the auth token and redirect
-            localStorage.setItem('token', json.authtoken); 
-            history.push('/');
+            localStorage.setItem('token', json.authtoken);
+            history.push('/getstart');
             // props.showAlert("Sucsessfuly Login!", "success");
 
         }
-        else{
-            props.showAlert("Faild To Lodin!", "dander");
+        else {
+            console.log(json.error)
+            setmassage({massage:json.error});
+            setTimeout(() => {
+                setmassage({massage:""});
+            }, 4000);
+            
         }
     }
 
-    const onChange = (e)=>{
-        setCredentials({...credentials, [e.target.name]: e.target.value})
+    const onChange = (e) => {
+        setCredentials({ ...credentials, [e.target.name]: e.target.value })
     }
 
     return (
-        <div className="container">
-            <h2 className="text-center mb-4" style={{color:"white",background:"black"}}>Lonin To Continue</h2>
-            <form  onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email address</label>
-                    <input type="email" className="form-control" value={credentials.email} onChange={onChange} id="email" name="email" aria-describedby="emailHelp" />
-                    <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password" className="form-control" value={credentials.password} onChange={onChange} name="password" id="password" />
-                </div>
-
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
-        </div>
+    <>
+        <div className="h-screen bg-indigo-100 flex justify-center items-center">
+		<div className="lg:w-2/5 md:w-1/2 w-2/3">
+			<form onSubmit={handleSubmit} className="bg-white p-10 rounded-lg shadow-lg min-w-full">
+				<h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">Login</h1>
+				<div>
+					<label className="text-gray-800 font-semibold block my-3 text-md" htmlFor="email">Email</label>
+					<input className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="email" name="email"
+						id="email" placeholder="@email" value={credentials.email} onChange={onChange} />
+				</div>
+				<div>
+					<label className="text-gray-800 font-semibold block my-3 text-md" htmlFor="password">Password</label>
+					<input className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="password"
+						value={credentials.password} onChange={onChange} name="password" id="password" placeholder="password" />
+				</div>
+                <h3 className=" px-4 py-2 text-lg text-red-900 tracking-wide font-semibold font-sans" >{getmassage.massage}</h3>
+				<button type="submit"
+					className="w-full mt-6 bg-indigo-600 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans">Login</button>
+			</form>
+		</div>
+	</div>
+    </>
     )
 }
 
