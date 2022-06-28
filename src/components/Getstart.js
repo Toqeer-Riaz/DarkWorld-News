@@ -7,7 +7,7 @@ import LoadingBar from 'react-top-loading-bar'
 function Getstart() {
   const apikey="8a05c1f3c82446e59c1dda1ee6c9ca7c";
   const pagesize=12;
-  const country='us';
+  const country='in';
   const [mode, setMode] = useState('light');
   const [progress, setprogresss] = useState(0) 
   const toggleMode = ()=>{

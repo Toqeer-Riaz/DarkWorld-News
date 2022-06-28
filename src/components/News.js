@@ -73,7 +73,7 @@ class News extends React.Component {
         return (
             
                 <div className="container my-3">
-                    <h2 className="text-center" style={this.props.mode === 'light' ? { color: 'black'} : { color: 'white' }}>Top {this.capitalize(this.props.category)} Headlines</h2>
+                    <h1 className="text-center" style={this.props.mode === 'light' ? { color: 'black'} : { color: 'white' }}>Top {this.capitalize(this.props.category)} Headlines</h1>
                     <InfiniteScroll
                     dataLength={this.state.articles.length}
                     next={this.fetchMoreData}

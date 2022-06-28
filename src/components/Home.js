@@ -40,8 +40,8 @@ function Home(props) {
     
 
         <div className="home_container">
-          <h1>News services</h1>
-          <p>Best news Website,get services free</p>
+          <h1>News Website</h1>
+          <p>Popular news websites in the world for latest news and information on business, politics, sports, jobs, travel, education, weather reports, and more. </p>
         </div>
         <form className="mx-auto my-4">
         <Link className="btn btn-danger mx-1  px-4" to="/getstart">GetStart</Link>
@@ -60,7 +60,7 @@ function Home(props) {
 
 
       <footer>
-        <p>Acme Web Deisgn, Copyright &copy; 2019</p>
+        <p>Copyright &copy; 2022</p>
       </footer>
 
 
